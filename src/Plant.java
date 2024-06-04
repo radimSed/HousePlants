@@ -7,7 +7,15 @@ public class Plant {
     LocalDate watering;
     int frequencyOfWatering;
 
-    public Plant(String name, String notes, LocalDate planted, LocalDate watering, int frequencyOfWatering) {
+    public Plant(String name, String notes, LocalDate planted, LocalDate watering, int frequencyOfWatering) throws PlantException{
+        if (frequencyOfWatering < 1 ) {
+            throw new PlantException("Invalid value for frequency of watering: " + frequencyOfWatering + ". Plant not created!");
+        }
+
+        if (watering.isBefore(planted)){
+            throw new PlantException("Invalid value for watering date: " + watering + " is before planting. Plant not created!");
+        }
+
         this.name = name;
         this.notes = notes;
         this.planted = planted;
@@ -15,11 +23,12 @@ public class Plant {
         this.frequencyOfWatering = frequencyOfWatering;
     }
 
-    public Plant(String name, LocalDate planted, int frequencyOfWatering) {
+    public Plant(String name, LocalDate planted, int frequencyOfWatering) throws PlantException{
         this(name, "", planted, LocalDate.now(),frequencyOfWatering );
+
     }
 
-    public Plant(String name) {
+    public Plant(String name) throws PlantException{
         this(name, "", LocalDate.now(), LocalDate.now(),7 );
     }
 
