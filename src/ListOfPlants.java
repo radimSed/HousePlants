@@ -5,20 +5,20 @@ import java.util.List;
 import java.util.Scanner;
 
 public class ListOfPlants {
-    List<Plant> listOfPlants = new ArrayList<>();
+    List<Plant> plants = new ArrayList<>();
 
     public void addPlant(Plant plant){
         if (plant != null) {
-            listOfPlants.add(plant);
+            plants.add(plant);
         }
     }
 
     public Plant getPlant(int index){
-        return listOfPlants.get(index);
+        return plants.get(index);
     }
 
     public void removePlant(int index){
-        listOfPlants.remove(index);
+        plants.remove(index);
     }
 
     public void readPlantsFromFile(String path) {
@@ -39,15 +39,14 @@ public class ListOfPlants {
                 } catch (PlantException e){
                     System.err.println(e.getMessage());
                 }
-                for(String part : parts){
-                    System.out.println(part);
-                }
             }
 
         } catch ( IOException  e) {
             e.printStackTrace();
         }
+    }
 
+    public void writePlantsToFile(String path){
 
     }
 
