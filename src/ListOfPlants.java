@@ -47,7 +47,19 @@ public class ListOfPlants {
     }
 
     public void writePlantsToFile(String path){
-
+        try {
+            BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(path));
+            for (Plant plant : plants){
+                String line = plant.getName() + "\t" + plant.getNotes() + "\t" + plant.getFrequencyOfWatering() +
+                        "\t" + plant.getWatering() + "\t" + plant.getPlanted();
+//                System.out.println(line);
+                bufferedWriter.write(line);
+                bufferedWriter.newLine();
+            }
+            bufferedWriter.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }
