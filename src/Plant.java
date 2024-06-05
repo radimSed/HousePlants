@@ -1,6 +1,6 @@
 import java.time.LocalDate;
 
-public class Plant {
+public class Plant implements Comparable<Plant> {
     String name;
     String notes;
     LocalDate planted;
@@ -75,5 +75,10 @@ public class Plant {
     public String getWateringInfo(){
         LocalDate dateOfNextWatering = this.watering.plusDays(frequencyOfWatering);
         return this.name + ", " + this.watering + ", " + dateOfNextWatering;
+    }
+
+    @Override
+    public int compareTo(Plant otherPlant) {
+        return this.getName().compareTo(otherPlant.getName());
     }
 }
