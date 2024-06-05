@@ -1,11 +1,11 @@
 import java.io.*;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
+import java.util.Collections;
+
 
 public class ListOfPlants {
-    List<Plant> plants = new ArrayList<>();
+    private List<Plant> plants = new ArrayList<>();
 
     public void addPlant(Plant plant){
         if (plant != null) {
@@ -19,6 +19,12 @@ public class ListOfPlants {
 
     public void removePlant(int index){
         plants.remove(index);
+    }
+
+    public List<Plant> getPlants(){
+//        List<Plant> returnPlants =
+//        returnPlants.addAll(this.plants);
+        return new ArrayList<>(this.plants);
     }
 
     public void readPlantsFromFile(String path) {
@@ -61,5 +67,4 @@ public class ListOfPlants {
             e.printStackTrace();
         }
     }
-
 }
