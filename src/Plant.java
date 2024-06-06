@@ -10,13 +10,22 @@ public class Plant implements Comparable<Plant> {
     int frequencyOfWatering;
 
     public Plant(String name, String notes, LocalDate planted, LocalDate watering, int frequencyOfWatering) throws PlantException{
-        if (frequencyOfWatering < 1 ) {
-            throw new PlantException("Invalid value for frequency of watering: " + frequencyOfWatering + ". Plant \"" + name + "\" not created!");
+        if (frequencyOfWatering < 1) {
+            throw new PlantException("Invalid value for frequency of watering. Plant \"" + name + "\" not created!");
+        }
+
+        if (watering == null) {
+            throw new PlantException("Invalid value for watering date. Plant \"" + name + "\" not created!");
+        }
+
+        if (planted == null) {
+            throw new PlantException("Invalid value for planted date. Plant \"" + name + "\" not created!");
         }
 
         if (watering.isBefore(planted)){
             throw new PlantException("Invalid value for watering date: " + watering + " is before planting. Plant \"" + name + "\" not created!");
         }
+
 
         this.name = name;
         this.notes = notes;

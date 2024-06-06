@@ -1,5 +1,6 @@
 import java.io.*;
 import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.*;
 import java.util.Collections;
 
@@ -36,9 +37,26 @@ public class ListOfPlants {
 
                 String name = parts[0];
                 String description = parts[1];
-                LocalDate planted = LocalDate.parse(parts[4]);
-                LocalDate watering = LocalDate.parse(parts[3]);
-                int frequency = Integer.parseInt(parts[2]);
+
+                LocalDate planted = null; //LocalDate.now();
+                try {
+                    planted = LocalDate.parse(parts[4]);
+                } catch (DateTimeParseException e){
+                    System.err.println("Invalid Date format: " + parts[4]);
+                }
+
+                LocalDate watering = null; //LocalDate.now();
+                try{
+                    watering = LocalDate.parse(parts[3]);
+                } catch (DateTimeParseException e){
+                    System.err.println("Invalid Date format " + parts[3]);
+                }
+                int frequency = 0;
+                try {
+                    frequency = Integer.parseInt(parts[2]);
+                } catch (NumberFormatException e){
+                    System.err.println("Invalid frequency of watering: " + parts[2]);
+                }
 
                 try {
                     addPlant(new Plant(name, description, planted, watering, frequency));
