@@ -1,0 +1,4 @@
+Fialka 1	Popis fialky - je fialová a hezká	3	2021-05-12	2021-01-01
+Sukulent v koupelně	Nezalévá se	365	2011-03-01	2011-03-01
+Mamilaria Plumosa	Je to kaktus	30	2024-06-01	2023-08-01
+Opuncia	To je taky kaktus	28	2024-05-02	2022-07-02
