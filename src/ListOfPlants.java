@@ -28,12 +28,15 @@ public class ListOfPlants {
         return new ArrayList<>(this.plants);
     }
 
-    public void readPlantsFromFile(String path) {
+    public void readPlantsFromFile(String path, String delimiter) throws PlantException{
         try(BufferedReader bufferedReader = new BufferedReader(new FileReader(path))){
             Scanner scanner = new Scanner(bufferedReader);
+            int lineNumber = 0;
             while(scanner.hasNextLine()){
                 String line = scanner.nextLine();
-                String[] parts = line.split("\t");
+                lineNumber++;
+
+                String[] parts = line.split(delimiter);
 
                 String name = parts[0];
                 String description = parts[1];
@@ -42,47 +45,50 @@ public class ListOfPlants {
                 try {
                     planted = LocalDate.parse(parts[4]);
                 } catch (DateTimeParseException e){
-                    System.err.println("Invalid Date format: " + parts[4]);
+                    //System.err.println("Invalid Date format: );
+                    throw new PlantException("Invalid date format " + parts[4] + " on line " + lineNumber + " of file \"" + path + "\".");
                 }
 
                 LocalDate watering = null; //LocalDate.now();
                 try{
                     watering = LocalDate.parse(parts[3]);
                 } catch (DateTimeParseException e){
-                    System.err.println("Invalid Date format " + parts[3]);
+                    throw new PlantException("Invalid date format " + parts[3] + " on line " + lineNumber + " of file \"" + path + "\".");
                 }
                 int frequency = 0;
                 try {
                     frequency = Integer.parseInt(parts[2]);
                 } catch (NumberFormatException e){
-                    System.err.println("Invalid frequency of watering: " + parts[2]);
+                    //System.err.println("Invalid frequency of watering: " + parts[2]);
+                    throw new PlantException("Invalid frequency of watering: " + parts[2] + " on line " + lineNumber + " of file \"" + path + "\".");
                 }
 
-                try {
+//                try {
                     addPlant(new Plant(name, description, planted, watering, frequency));
-                } catch (PlantException e){
-                    System.err.println(e.getMessage());
-                }
+//                } catch (PlantException e){
+//                    System.err.println(e.getMessage());
+//                }
             }
 
         } catch ( IOException  e) {
-            e.printStackTrace();
+//            e.printStackTrace();
+            throw new PlantException("An issue with file " + path + "occured:-(");
         }
     }
 
-    public void writePlantsToFile(String path){
-        try {
-            BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(path));
+    public void writePlantsToFile(String path, String delimiter) throws PlantException{
+        try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(path))){
             for (Plant plant : plants){
-                String line = plant.getName() + "\t" + plant.getNotes() + "\t" + plant.getFrequencyOfWatering() +
-                        "\t" + plant.getWatering() + "\t" + plant.getPlanted();
+                String line = plant.getName() + delimiter + plant.getNotes() + delimiter + plant.getFrequencyOfWatering() +
+                        delimiter + plant.getWatering() + delimiter + plant.getPlanted();
 //                System.out.println(line);
                 bufferedWriter.write(line);
                 bufferedWriter.newLine();
             }
             bufferedWriter.flush();
         } catch (IOException e) {
-            e.printStackTrace();
+//            e.printStackTrace();
+            throw new PlantException("An issue with file " + path + "occured:-(");
         }
     }
 }
