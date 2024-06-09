@@ -10,28 +10,18 @@ public class Plant implements Comparable<Plant> {
     int frequencyOfWatering;
 
     public Plant(String name, String notes, LocalDate planted, LocalDate watering, int frequencyOfWatering) throws PlantException{
-        if (frequencyOfWatering < 1) {
-            throw new PlantException("Invalid value for frequency of watering. Plant \"" + name + "\" not created!");
-        }
-
-        if (watering == null) {
-            throw new PlantException("Invalid value for watering date. Plant \"" + name + "\" not created!");
-        }
-
-        if (planted == null) {
-            throw new PlantException("Invalid value for planted date. Plant \"" + name + "\" not created!");
-        }
-
         if (watering.isBefore(planted)){
             throw new PlantException("Invalid value for watering date: " + watering + " is before planting. Plant \"" + name + "\" not created!");
         }
 
-
         this.name = name;
         this.notes = notes;
-        this.planted = planted;
-        this.watering = watering;
-        this.frequencyOfWatering = frequencyOfWatering;
+        //this.planted = planted;
+        setPlanted(planted);
+        //this.watering = watering;
+        setWatering(watering);
+        //this.frequencyOfWatering = frequencyOfWatering;
+        setFrequencyOfWatering(frequencyOfWatering);
     }
 
     public Plant(String name, LocalDate planted, int frequencyOfWatering) throws PlantException{
@@ -63,24 +53,36 @@ public class Plant implements Comparable<Plant> {
         return planted;
     }
 
-    public void setPlanted(LocalDate planted) {
-        this.planted = planted;
+    public void setPlanted(LocalDate planted) throws PlantException{
+        if (planted == null) {
+            throw new PlantException("Invalid value for planted date. Plant \"" + name + "\" not created!");
+        } else {
+            this.planted = planted;
+        }
     }
 
     public LocalDate getWatering() {
         return watering;
     }
 
-    public void setWatering(LocalDate watering) {
-        this.watering = watering;
+    public void setWatering(LocalDate watering) throws PlantException{
+        if (watering == null) {
+            throw new PlantException("Invalid value for watering date. Plant \"" + name + "\" not created!");
+        } else {
+            this.watering = watering;
+        }
     }
 
     public int getFrequencyOfWatering() {
         return frequencyOfWatering;
     }
 
-    public void setFrequencyOfWatering(int frequencyOfWatering) {
-        this.frequencyOfWatering = frequencyOfWatering;
+    public void setFrequencyOfWatering(int frequencyOfWatering) throws PlantException{
+        if (frequencyOfWatering < 1) {
+            throw new PlantException("Invalid value for frequency of watering. Plant \"" + name + "\" not created!");
+        } else {
+            this.frequencyOfWatering = frequencyOfWatering;
+        }
     }
 
     public String getWateringInfo(){
