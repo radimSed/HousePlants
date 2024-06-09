@@ -91,4 +91,8 @@ public class ListOfPlants {
             throw new PlantException("An issue with file " + path + "occured:-(");
         }
     }
+
+    public void sort(){
+        Collections.sort(this.plants);
+    }
 }
