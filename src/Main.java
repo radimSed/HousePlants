@@ -1,7 +1,4 @@
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.*;
 
@@ -15,8 +12,11 @@ public class Main {
         fileErr2 = "kvetiny-spatne-datum.txt";
 
         ListOfPlants listOfPlants = new ListOfPlants();
-        listOfPlants.readPlantsFromFile(fileIn);
-
+        try {
+            listOfPlants.readPlantsFromFile(fileIn, "\t");
+        } catch (PlantException e){
+            e.getMessage();
+        }
         try {
             listOfPlants.addPlant(new Plant("Mamilaria Plumosa", "Je to kaktus",
                     LocalDate.of(2023, 8, 1), LocalDate.of(2024, 6, 1), 30));
@@ -33,14 +33,22 @@ public class Main {
 
         listOfPlants.removePlant(1);
 
-        listOfPlants.writePlantsToFile(fileOut);
+        try {
+            listOfPlants.writePlantsToFile(fileOut, "\t");
+        } catch (PlantException e){
+            System.err.println(e.getMessage());
+        }
 
 //opětovné načtení vypsaného souboru
         ListOfPlants listOfPlants2 = new ListOfPlants();
-        listOfPlants2.readPlantsFromFile(fileOut);
+        try {
+        listOfPlants2.readPlantsFromFile(fileOut, "\t");
+        } catch (PlantException e){
+            System.err.println(e.getMessage());
+        }
 
-        List<Plant> plants = new ArrayList<>();
-        plants = listOfPlants2.getPlants();
+//        List<Plant> plants = new ArrayList<>();
+        List<Plant> plants = listOfPlants2.getPlants();
 
         //kontrolni vypis
         System.out.println("Kontrolní výpis před seřazením");
@@ -50,7 +58,9 @@ public class Main {
 
         System.out.println();
 
-        Collections.sort(plants);
+        //Collections.sort(plants);
+        listOfPlants2.sort();
+        plants = listOfPlants2.getPlants();
         //kontrolni vypis po seřazení podle jména
         System.out.println("Kontrolní výpis po seřazení podle jména");
         for( Plant plant : plants){
@@ -69,7 +79,11 @@ public class Main {
         System.out.println();
 
         ListOfPlants listOfPlantsErr1 = new ListOfPlants();
-        listOfPlantsErr1.readPlantsFromFile(fileErr1);
+        try {
+        listOfPlantsErr1.readPlantsFromFile(fileErr1, "\t");
+        } catch (PlantException e){
+            System.err.println(e.getMessage());
+        }
         List<Plant> plantsErr1 = listOfPlantsErr1.getPlants();
         //kontrolni vypis po nacteni vadnych frekvenci
         System.out.println("Kontrolní výpis po načtení souboru s vadnou frekvencí");
@@ -80,8 +94,13 @@ public class Main {
         System.out.println();
 
         ListOfPlants listOfPlantsErr2 = new ListOfPlants();
-        listOfPlantsErr2.readPlantsFromFile(fileErr2);
+        try {
+            listOfPlantsErr2.readPlantsFromFile(fileErr2, "\t");
+        } catch (PlantException e){
+            System.err.println(e.getMessage());
+        }
         List<Plant> plantsErr2 = listOfPlantsErr2.getPlants();
+
         //kontrolni vypis po nacteni vadnych datumu
         System.out.println("Kontrolní výpis po načtení souboru s vadným datem");
         for( Plant plant : plantsErr2){
